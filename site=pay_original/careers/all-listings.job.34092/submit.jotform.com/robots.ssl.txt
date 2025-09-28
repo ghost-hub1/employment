@@ -1,5 +1,0 @@
-# submit.jotform.com Robots.txt
-
-
-Sitemap: https://www.jotform.com/sitemap.xml
-
