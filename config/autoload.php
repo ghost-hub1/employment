@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once 'database.php';
 
 // require_once __DIR__ . Auth class
-require_once 'includes/auth.php';
+require_once '/includes/auth.php';
 
 // Create database connection
 $database = new Database();
