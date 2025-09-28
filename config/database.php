@@ -3,7 +3,7 @@ class Database {
     private $host = "mysql-emp-paylocity0-00.b.aivencloud.com";
     private $db_name = "defaultdb";
     private $username = "avnadmin";
-    private $password = "";
+    private $password = "AVNS_XTwQCB7wiuay88BHwOB";
     public $conn;
 
     public function getConnection() {
