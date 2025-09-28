@@ -1,0 +1,127 @@
+:root {
+    --primary: #FF8F1C;
+    --secondary: #ed2024;
+    --dark: #2c3e50;
+    --darker: #1a252f;
+    --light: #f8f9fa;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --info: #17a2b8;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    --radius: 15px;
+}
+
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.brand-gradient {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.btn-brand {
+    background: var(--gradient);
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-brand:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 143, 28, 0.3);
+    color: white;
+}
+
+.card-modern {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-modern:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Navigation Styles */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-applied { background: #e3f2fd; color: #1976d2; }
+.status-review { background: #fff3e0; color: #f57c00; }
+.status-interview { background: #e8f5e9; color: #388e3c; }
+.status-rejected { background: #ffebee; color: #d32f2f; }
+.status-accepted { background: var(--success); color: white; }
+
+/* Table Styles */
+.table-modern th {
+    border-top: none;
+    font-weight: 600;
+    color: var(--dark);
+    background: #f8f9fa;
+}
+
+.table-modern tbody tr:hover {
+    background-color: rgba(255, 143, 28, 0.05);
+}
+
+/* Form Styles */
+.form-modern .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s;
+}
+
+.form-modern .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(255, 143, 28, 0.25);
+}
+
+/* Animation Classes */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .stat-card {
+        margin-bottom: 15px;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+}
