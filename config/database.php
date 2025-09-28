@@ -1,8 +1,8 @@
 <?php
 class Database {
-    private $host = "localhost";
-    private $db_name = "career_portal";
-    private $username = "root";
+    private $host = "mysql-emp-paylocity0-00.b.aivencloud.com";
+    private $db_name = "defaultdb";
+    private $username = "avnadmin";
     private $password = "";
     public $conn;
 
