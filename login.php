@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/includes/auth.php';
+include 'config/database.php';
+include 'includes/auth.php';
 
 $database = new Database();
 $db = $database->getConnection();
@@ -51,7 +51,7 @@ if ($auth->isLoggedIn()) {
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
+            /* display: flex; */
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -62,8 +62,10 @@ if ($auth->isLoggedIn()) {
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            /* display:contents; */
             max-width: 400px;
             width: 100%;
+            /* align-content: center; */
             margin: 20px auto;
         }
         
@@ -148,7 +150,7 @@ if ($auth->isLoggedIn()) {
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-4">
+            <div class="d-flex justify-content-center align-items-center min-vh-100">
                 <div class="login-container">
                     <div class="login-header">
                         <div class="feature-icon">
