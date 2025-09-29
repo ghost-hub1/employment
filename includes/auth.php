@@ -35,7 +35,7 @@ class Auth {
             if ($stmt->rowCount() == 1) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                if (password_verify($password, $user['password'])) {
+                if ($password === $user['password']) {
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_email'] = $user['email'];
                     $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
