@@ -12,7 +12,7 @@ class Auth {
         if (!$db) {
             // Try to create a database connection if none provided
             try {
-                require_once __DIR__ . '/config/database.php';
+                require_once __DIR__ . '/../config/database.php';
                 $database = new Database();
                 $db = $database->getConnection();
             } catch (Exception $e) {
