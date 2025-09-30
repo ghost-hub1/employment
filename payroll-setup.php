@@ -44,7 +44,7 @@ $user_id = $_SESSION['user_id'];
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 5rem;
+            font-size: 7rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
             z-index: 0;
