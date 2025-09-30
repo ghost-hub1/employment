@@ -151,7 +151,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_1" value="yes" id="agree1" required>
                             <label class="form-check-label" for="agree1">
-                                <strong>I understand the equipment cost and what's included in the professional package</strong>
+                                <strong>I acknowledge that company-standard professional equipment may be required and I’m open to reviewing the details when provided.</strong>
                             </label>
                         </div>
                     </div>
@@ -160,7 +160,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_2" value="yes" id="agree2" required>
                             <label class="form-check-label" for="agree2">
-                                <strong>I'm committed to completing the training program and meeting all requirements</strong>
+                                <strong>I am committed to engaging fully in the training program and doing my best to meet its expectations.</strong>
                             </label>
                         </div>
                     </div>
@@ -169,7 +169,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_3" value="yes" id="agree3" required>
                             <label class="form-check-label" for="agree3">
-                                <strong>I understand the time investment required and am prepared to dedicate the necessary hours</strong>
+                                <strong>I understand this role requires consistent time and focus, and I am ready to dedicate my effort accordingly.</strong>
                             </label>
                         </div>
                     </div>
@@ -178,7 +178,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_4" value="yes" id="agree4" required>
                             <label class="form-check-label" for="agree4">
-                                <strong>I'm ready to apply myself fully to this opportunity and succeed</strong>
+                                <strong>I’m prepared to give my best to this opportunity and work toward success with the team.</strong>
                             </label>
                         </div>
                     </div>
@@ -187,7 +187,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_5" value="yes" id="agree5" required>
                             <label class="form-check-label" for="agree5">
-                                <strong>I understand the equipment is mine to keep as a professional investment</strong>
+                                <strong>I understand that company-standard equipment may be offered as part of this role, and I view it as a professional investment in my work.</strong>
                             </label>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_6" value="yes" id="agree6" required>
                             <label class="form-check-label" for="agree6">
-                                <strong>I acknowledge the training materials are comprehensive and designed for success</strong>
+                                <strong>I acknowledge that the training resources are designed to support my success and professional growth.</strong>
                             </label>
                         </div>
                     </div>
@@ -205,19 +205,19 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_7" value="yes" id="agree7" required>
                             <label class="form-check-label" for="agree7">
-                                <strong>I'm confident in this investment in my professional future</strong>
+                                <strong>I am confident this program supports my long-term professional future.</strong>
                             </label>
                         </div>
                     </div>
                     
-                    <div class="agreement-item">
+                    <!-- <div class="agreement-item">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_8" value="yes" id="agree8" required>
                             <label class="form-check-label" for="agree8">
                                 <strong>I agree to participate actively in the professional community</strong>
                             </label>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Signature Section -->
