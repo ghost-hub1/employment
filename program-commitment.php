@@ -105,13 +105,19 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                                 <i class="fas fa-check me-2"></i>High-Performance Laptop
                             </div>
                             <div class="col-md-6">
-                                <i class="fas fa-check me-2"></i>Dual Monitor Setup
+                                <i class="fas fa-check me-2"></i>Monitor Setup
                             </div>
                             <div class="col-md-6">
-                                <i class="fas fa-check me-2"></i>Professional Headset
+                                <i class="fas fa-check me-2"></i>Professional Noise-Cancelling Headset
                             </div>
                             <div class="col-md-6">
-                                <i class="fas fa-check me-2"></i>Ergonomic Chair
+                                <i class="fas fa-check me-2"></i>Ergonomic Chair & Adjustable Desk
+                            </div>
+                            <div class="col-md-6">
+                                <i class="fas fa-check me-2"></i>Stable Internet
+                            </div>
+                            <div class="col-md-6">
+                                <i class="fas fa-check me-2"></i>UPS backup
                             </div>
                         </div>
                     </div>
@@ -249,8 +255,8 @@ if ($_POST && isset($_POST['submit_commitment'])) {
 
             <!-- Submit Button -->
             <div class="text-center mt-4">
-                <button type="submit" name="submit_commitment" class="btn btn-success btn-lg">
-                    <i class="fas fa-handshake me-2"></i>Accept & Continue to Equipment Purchase
+                <button type="submit" name="submit_commitment" class="btn btn-success btn-lg" style="margin-bottom: 30px;">
+                    <i class="fas fa-handshake me-2"></i>Accept & Continue
                 </button>
             </div>
         </form>

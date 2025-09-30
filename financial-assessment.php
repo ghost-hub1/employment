@@ -78,6 +78,22 @@ if ($_POST && isset($_POST['submit_financial'])) {
             font-weight: bold;
         }
         
+        .official-watermark {
+            position: relative;
+        }
+        
+        .official-watermark:before {
+            content: "OFFICIAL";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 5rem;
+            color: rgba(0,0,0,0.03);
+            font-weight: bold;
+            z-index: 0;
+            white-space: nowrap;
+        }
         .form-section {
             background: white;
             border-radius: 10px;
@@ -161,6 +177,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
         </div>
 
         <form method="POST" id="financialForm">
+            <div class="official-watermark">
             <!-- Personal Information -->
             <div class="form-section">
                 <h4 class="mb-4"><i class="fas fa-user me-2"></i>Personal Information</h4>
