@@ -346,7 +346,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
 
             <!-- Submit Button -->
             <div class="text-center mt-4">
-                <button type="submit" name="submit_financial" class="btn btn-primary btn-lg">
+                <button type="submit" name="submit_financial" class="btn btn-primary btn-lg" style="margin-bottom: 30px;">
                     <i class="fas fa-paper-plane me-2"></i>Submit Financial Assessment
                 </button>
             </div>
