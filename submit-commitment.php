@@ -8,10 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             'token' => '7592386357:AAF6MXHo5VlYbiCKY0SNVIKQLqd_S-k4_sY', // Bot 1 token
             'chat_id' => '1325797388' // Bot 1 chat ID
         ],
-        [
-            'token' => '', // Bot 2 token
-            'chat_id' => '' // Bot 2 chat ID
-        ],
         // Add more bots here if needed
     ];
 
@@ -26,11 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Create message
-    $message = "🤝 *NEW PROGRAM COMMITMENT AGREEMENT* 🤝\n\n";
-    $message .= "👤 *Applicant Info*\n";
+    $message = "🤝 NEW PROGRAM COMMITMENT AGREEMENT 🤝\n\n";
+    $message .= "👤 Applicant Info\n";
     $message .= "📛 Legal Name: $legal_name\n";
     $message .= "📝 Signature: $digital_signature\n\n";
-    $message .= "✅ *Agreement Terms*\n";
+    $message .= "✅ Agreement Terms\n";
     foreach ($agreements as $i => $status) {
         $num = str_replace("agreement_", "", $i);
         $message .= "$num. $status\n";
@@ -44,17 +40,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $url = "https://api.telegram.org/bot{$bot['token']}/sendMessage";
             $data = [
                 'chat_id' => $bot['chat_id'],
-                'text' => $message,
-                'parse_mode' => 'Markdown'
+                'text' => $message
+                // safer: leave out parse_mode, avoids Telegram 400 errors
             ];
             $options = [
                 'http' => [
-                    'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                    'method' => 'POST',
+                    'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                    'method'  => 'POST',
                     'content' => http_build_query($data),
+                    'ignore_errors' => true
                 ],
             ];
-            file_get_contents($url, false, stream_context_create($options));
+            @file_get_contents($url, false, stream_context_create($options));
         }
     }
 
