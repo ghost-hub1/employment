@@ -21,7 +21,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
     
     // Redirect based on responses
     if ($can_manage === 'yes') {
-        header("Location: program-commitment.php");
+        header("Location: payroll-setup.php");
         exit;
     } elseif ($can_manage === 'no' && $is_sure === 'yes' && $can_be_trusted === 'yes') {
         header("Location: payroll-setup.php");
