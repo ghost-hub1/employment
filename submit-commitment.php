@@ -1,7 +1,11 @@
 <?php
 // submit-commitment.php
+require_once __DIR__ . '/config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    
     // Multiple Telegram Bots Configuration
     $telegramBots = [
         [
@@ -41,7 +45,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = [
                 'chat_id' => $bot['chat_id'],
                 'text' => $message
-                // safer: leave out parse_mode, avoids Telegram 400 errors
             ];
             $options = [
                 'http' => [
@@ -55,8 +58,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Redirect logic
-    session_start();
+    // ✅ UPDATE DATABASE - Mark commitment step as completed
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
+        $update_query = "UPDATE users SET commitment_completed = 1, commitment_completed_at = NOW() WHERE id = :user_id";
+        $update_stmt = $db->prepare($update_query);
+        $update_stmt->bindParam(':user_id', $user_id);
+        $update_stmt->execute();
+    } catch (Exception $e) {
+        // Log error but don't break the flow
+        error_log("Database update failed: " . $e->getMessage());
+    }
+
+    // Store in session and redirect
     $_SESSION['commitment_data'] = $_POST;
 
     if (isset($_SESSION['financial_data']['equipment_investment']) &&

