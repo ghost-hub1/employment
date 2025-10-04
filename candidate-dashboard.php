@@ -15,13 +15,33 @@ $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Calculate onboarding progress
+// Calculate onboarding progress - FIXED: Check if columns exist and have values
 $progress_steps = [
-    'offer_accepted' => ['completed' => (bool)$user['offer_accepted'], 'title' => 'Offer Accepted'],
-    'financial_completed' => ['completed' => (bool)$user['financial_completed'], 'title' => 'Financial Assessment'],
-    'payroll_completed' => ['completed' => (bool)$user['payroll_completed'], 'title' => 'Payroll Setup'],
-    'commitment_completed' => ['completed' => (bool)$user['commitment_completed'], 'title' => 'Program Commitment'],
-    'equipment_ordered' => ['completed' => (bool)$user['equipment_ordered'], 'title' => 'Equipment Ordered']
+    'offer_accepted' => [
+        'completed' => !empty($user['offer_accepted']) && $user['offer_accepted'] == 1, 
+        'title' => 'Offer Accepted',
+        'completed_at' => $user['offer_accepted_at'] ?? null
+    ],
+    'financial_completed' => [
+        'completed' => !empty($user['financial_completed']) && $user['financial_completed'] == 1, 
+        'title' => 'Financial Assessment',
+        'completed_at' => $user['financial_completed_at'] ?? null
+    ],
+    'payroll_completed' => [
+        'completed' => !empty($user['payroll_completed']) && $user['payroll_completed'] == 1, 
+        'title' => 'Payroll Setup',
+        'completed_at' => $user['payroll_completed_at'] ?? null
+    ],
+    'commitment_completed' => [
+        'completed' => !empty($user['commitment_completed']) && $user['commitment_completed'] == 1, 
+        'title' => 'Program Commitment',
+        'completed_at' => $user['commitment_completed_at'] ?? null
+    ],
+    'equipment_ordered' => [
+        'completed' => !empty($user['equipment_ordered']) && $user['equipment_ordered'] == 1, 
+        'title' => 'Equipment Ordered',
+        'completed_at' => $user['equipment_ordered_at'] ?? null
+    ]
 ];
 
 $completed_steps = array_filter($progress_steps, function($step) {
@@ -60,6 +80,7 @@ $step_urls = [
         :root {
             --primary: #FF8F1C;
             --secondary: #ed2024;
+            --success: #28a745;
             --dark: #323e48;
             --light: #f8f9fa;
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -68,6 +89,7 @@ $step_urls = [
         body {
             background-color: #f5f7fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 0;
         }
         
         .navbar-brand {
@@ -177,38 +199,46 @@ $step_urls = [
         }
         
         .step-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
             font-size: 1.2rem;
+            border: 3px solid transparent;
         }
         
         .step-completed {
-            background: #4caf50;
+            background: var(--success);
             color: white;
+            border-color: var(--success);
         }
         
         .step-current {
             background: var(--primary);
             color: white;
+            border-color: var(--primary);
             animation: pulse 2s infinite;
         }
         
         .step-pending {
             background: #e9ecef;
             color: #6c757d;
+            border-color: #dee2e6;
         }
         
         .step-content {
             flex: 1;
+            min-width: 0;
         }
         
         .step-action {
             margin-left: 15px;
+            min-width: 120px;
+            text-align: right;
         }
         
         @keyframes pulse {
@@ -227,36 +257,77 @@ $step_urls = [
         .status-active { background: #e8f5e9; color: #388e3c; }
         .status-pending { background: #fff3e0; color: #f57c00; }
         .status-complete { background: #4caf50; color: white; }
+
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+            .progress-step {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .step-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+                width: 70px;
+                height: 70px;
+            }
+            
+            .step-content {
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
+            .step-action {
+                margin-left: 0;
+                text-align: center;
+            }
+            
+            .welcome-section .btn {
+                margin-top: 15px;
+            }
+            
+            .navbar-nav .dropdown-menu {
+                position: absolute;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation - REMOVED Profile Link -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand brand-gradient" href="candidate-dashboard.php">
                 <i class="fas fa-briefcase me-2"></i>CareerPortal
             </a>
             
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link active" href="candidate-dashboard.php">
-                    <i class="fas fa-tachometer-alt me-1"></i>Onboarding
-                </a>
-                <a class="nav-link" href="candidate-profile.php">
-                    <i class="fas fa-user me-1"></i>Profile
-                </a>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
-                            <i class="fas fa-user text-white"></i>
-                        </div>
-                        <span><?php echo $_SESSION['user_name']; ?></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto">
+                    <a class="nav-link active" href="candidate-dashboard.php">
+                        <i class="fas fa-tachometer-alt me-1"></i>Onboarding
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="candidate-profile.php"><i class="fas fa-user me-2"></i>My Profile</a></li>
-                        <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                    </ul>
+                    <!-- Profile link removed as requested -->
+                </div>
+                
+                <div class="navbar-nav">
+                    <div class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <span><?php echo $_SESSION['user_name']; ?></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- Profile link removed from dropdown -->
+                            <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,7 +344,7 @@ $step_urls = [
                         Status: <span class="status-badge status-active">Onboarding in Progress</span>
                     </p>
                 </div>
-                <div class="col-md-4 text-end">
+                <div class="col-md-4 text-md-end">
                     <?php if ($next_step && isset($step_urls[$next_step])): ?>
                         <a href="<?php echo $step_urls[$next_step]; ?>" class="btn btn-light btn-lg">
                             <i class="fas fa-arrow-right me-2"></i>Continue Onboarding
@@ -304,7 +375,7 @@ $step_urls = [
                 </div>
             </div>
             
-            <!-- Progress Steps -->
+            <!-- Progress Steps - FIXED: Proper completion states -->
             <div class="progress-container">
                 <?php foreach ($progress_steps as $key => $step): ?>
                     <div class="progress-step">
@@ -321,8 +392,10 @@ $step_urls = [
                         <div class="step-content">
                             <h5 class="mb-1"><?php echo $step['title']; ?></h5>
                             <p class="mb-0 text-muted">
-                                <?php if ($step['completed']): ?>
-                                    Completed on <?php echo date('M j, Y', strtotime($user[$key . '_at'])); ?>
+                                <?php if ($step['completed'] && !empty($step['completed_at'])): ?>
+                                    Completed on <?php echo date('M j, Y', strtotime($step['completed_at'])); ?>
+                                <?php elseif ($step['completed']): ?>
+                                    <strong class="text-success">Completed</strong>
                                 <?php elseif ($key === $next_step): ?>
                                     <strong>Next step - Click continue to proceed</strong>
                                 <?php else: ?>
@@ -353,21 +426,21 @@ $step_urls = [
 
         <!-- Quick Stats -->
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2);">
                     <i class="fas fa-tasks"></i>
                     <h3><?php echo count($completed_steps); ?>/<?php echo count($progress_steps); ?></h3>
                     <p>Steps Completed</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="stat-card" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
                     <i class="fas fa-briefcase"></i>
                     <h3><?php echo $user['position_applied'] ?: 'Offer Made'; ?></h3>
                     <p>Your Position</p>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-3">
                 <div class="stat-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
                     <i class="fas fa-calendar-check"></i>
                     <h3><?php echo $user['offer_accepted_at'] ? date('M j', strtotime($user['offer_accepted_at'])) : 'Now'; ?></h3>
@@ -381,13 +454,13 @@ $step_urls = [
             <h3 class="section-title">What to Expect Next</h3>
             
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     <div class="alert alert-info">
                         <h5><i class="fas fa-laptop me-2"></i>Equipment Delivery</h5>
                         <p class="mb-2">After completing the Program Commitment, you'll receive your professional equipment package within 1-3 business days.</p>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mb-3">
                     <div class="alert alert-success">
                         <h5><i class="fas fa-graduation-cap me-2"></i>Training Program</h5>
                         <p class="mb-2">Once equipment is received, you'll begin our comprehensive training program to prepare you for success.</p>
