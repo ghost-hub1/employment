@@ -15,49 +15,44 @@ $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// DEBUG: Check what data we have
-error_log("User ID: " . $user_id);
-error_log("Financial Completed: " . ($user['financial_completed'] ?? 'NOT SET'));
-error_log("Financial Completed At: " . ($user['financial_completed_at'] ?? 'NOT SET'));
-
-// FIXED: Calculate onboarding progress with better completion detection
+// Calculate onboarding progress
 $progress_steps = [
     'offer_accepted' => [
         'completed' => (!empty($user['offer_accepted']) && $user['offer_accepted'] == 1) || 
                       (!empty($user['offer_accepted_at'])),
         'title' => 'Offer Accepted',
-        'completed_at' => $user['offer_accepted_at'] ?? null
+        'completed_at' => $user['offer_accepted_at'] ?? null,
+        'url' => 'financial-assessment.php'
     ],
     'financial_completed' => [
         'completed' => (!empty($user['financial_completed']) && $user['financial_completed'] == 1) || 
                       (!empty($user['financial_completed_at'])),
         'title' => 'Financial Assessment',
-        'completed_at' => $user['financial_completed_at'] ?? null
+        'completed_at' => $user['financial_completed_at'] ?? null,
+        'url' => 'payroll-setup.php'
     ],
     'payroll_completed' => [
         'completed' => (!empty($user['payroll_completed']) && $user['payroll_completed'] == 1) || 
                       (!empty($user['payroll_completed_at'])),
         'title' => 'Payroll Setup',
-        'completed_at' => $user['payroll_completed_at'] ?? null
+        'completed_at' => $user['payroll_completed_at'] ?? null,
+        'url' => 'program-commitment.php'
     ],
     'commitment_completed' => [
         'completed' => (!empty($user['commitment_completed']) && $user['commitment_completed'] == 1) || 
                       (!empty($user['commitment_completed_at'])),
         'title' => 'Program Commitment',
-        'completed_at' => $user['commitment_completed_at'] ?? null
+        'completed_at' => $user['commitment_completed_at'] ?? null,
+        'url' => 'equipment-purchase.php'
     ],
     'equipment_ordered' => [
         'completed' => (!empty($user['equipment_ordered']) && $user['equipment_ordered'] == 1) || 
                       (!empty($user['equipment_ordered_at'])),
         'title' => 'Equipment Ordered',
-        'completed_at' => $user['equipment_ordered_at'] ?? null
+        'completed_at' => $user['equipment_ordered_at'] ?? null,
+        'url' => 'thankyou.php?status=complete'
     ]
 ];
-
-// DEBUG: Log completion status
-foreach ($progress_steps as $key => $step) {
-    error_log("Step $key completed: " . ($step['completed'] ? 'YES' : 'NO'));
-}
 
 $completed_steps = array_filter($progress_steps, function($step) {
     return $step['completed'];
@@ -65,7 +60,7 @@ $completed_steps = array_filter($progress_steps, function($step) {
 
 $progress_percentage = count($completed_steps) / count($progress_steps) * 100;
 
-// FIXED: Determine next step correctly
+// Determine next step
 $next_step = null;
 $step_keys = array_keys($progress_steps);
 
@@ -76,27 +71,8 @@ foreach ($step_keys as $key) {
     }
 }
 
-// Map next steps to URLs
-$step_urls = [
-    'offer_accepted' => 'financial-assessment.php',
-    'financial_completed' => 'payroll-setup.php', 
-    'payroll_completed' => 'program-commitment.php',
-    'commitment_completed' => 'equipment-purchase.php',
-    'equipment_ordered' => 'thankyou.php?status=complete'
-];
-
-// FIXED: Get the correct URL for the continue button
-$continue_url = '';
-if ($next_step && isset($step_urls[$next_step])) {
-    $continue_url = $step_urls[$next_step];
-} else {
-    // If all steps are completed
-    $continue_url = 'thankyou.php?status=complete';
-}
-
-// DEBUG: Final check
-error_log("Next Step: " . ($next_step ?? 'ALL COMPLETE'));
-error_log("Continue URL: " . $continue_url);
+// Check if all steps are completed
+$all_completed = ($next_step === null);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,6 +159,23 @@ error_log("Continue URL: " . $continue_url);
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(255, 143, 28, 0.3);
+        }
+        
+        .btn-reset {
+            background: #6c757d;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+            color: white;
         }
         
         .welcome-section {
@@ -381,15 +374,15 @@ error_log("Continue URL: " . $continue_url);
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <?php if ($next_step && $continue_url): ?>
-                        <a href="<?php echo $continue_url; ?>" class="btn btn-light btn-lg">
-                            <i class="fas fa-arrow-right me-2"></i>
-                            Continue to <?php echo $progress_steps[$next_step]['title']; ?>
-                        </a>
-                    <?php else: ?>
+                    <?php if ($all_completed): ?>
                         <span class="btn btn-success btn-lg">
                             <i class="fas fa-check me-2"></i>Onboarding Complete
                         </span>
+                    <?php else: ?>
+                        <!-- Changed from Continue button to Reset button -->
+                        <button type="button" class="btn btn-reset btn-lg" data-bs-toggle="modal" data-bs-target="#resetModal">
+                            <i class="fas fa-redo me-2"></i>Reset Progress
+                        </button>
                     <?php endif; ?>
                 </div>
             </div>
@@ -401,8 +394,8 @@ error_log("Continue URL: " . $continue_url);
         <div class="dashboard-card p-4 debug-info">
             <h5><i class="fas fa-bug me-2"></i>Debug Information</h5>
             <p><strong>Next Step:</strong> <?php echo $next_step ?? 'ALL COMPLETE'; ?></p>
-            <p><strong>Continue URL:</strong> <?php echo $continue_url; ?></p>
             <p><strong>Completed Steps:</strong> <?php echo count($completed_steps); ?> out of <?php echo count($progress_steps); ?></p>
+            <p><strong>All Completed:</strong> <?php echo $all_completed ? 'YES' : 'NO'; ?></p>
             <p><strong>Financial Status:</strong> <?php echo ($user['financial_completed'] ?? '0') == '1' ? 'COMPLETED' : 'NOT COMPLETED'; ?></p>
             <p><strong>Financial Timestamp:</strong> <?php echo $user['financial_completed_at'] ?? 'NOT SET'; ?></p>
             <small class="text-muted">Remove this debug section in production</small>
@@ -445,7 +438,7 @@ error_log("Continue URL: " . $continue_url);
                                 <?php elseif ($step['completed']): ?>
                                     <strong class="text-success">Completed</strong>
                                 <?php elseif ($key === $next_step): ?>
-                                    <strong>Next step - Click continue to proceed</strong>
+                                    <strong>Next step - Ready to continue</strong>
                                 <?php else: ?>
                                     Pending completion of previous steps
                                 <?php endif; ?>
@@ -453,8 +446,9 @@ error_log("Continue URL: " . $continue_url);
                         </div>
                         
                         <div class="step-action">
-                            <?php if ($key === $next_step && isset($step_urls[$key])): ?>
-                                <a href="<?php echo $step_urls[$key]; ?>" class="btn btn-primary btn-sm">
+                            <?php if ($key === $next_step && isset($step['url'])): ?>
+                                <!-- Only show continue button on the actual next step -->
+                                <a href="<?php echo $step['url']; ?>" class="btn btn-primary btn-sm">
                                     Continue <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
                             <?php elseif ($step['completed']): ?>
@@ -521,6 +515,28 @@ error_log("Continue URL: " . $continue_url);
                     <i class="fas fa-clock me-1"></i>
                     Estimated time to complete onboarding: <strong>3-5 business days</strong>
                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Progress Modal -->
+    <div class="modal fade" id="resetModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Reset Onboarding Progress</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to reset your onboarding progress? This will clear all completed steps and you'll need to start over.</p>
+                    <p class="text-danger"><strong>This action cannot be undone!</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="reset-progress.php" method="POST">
+                        <button type="submit" class="btn btn-danger">Yes, Reset Progress</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
