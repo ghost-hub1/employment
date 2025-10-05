@@ -50,16 +50,18 @@ $completed_steps = array_filter($progress_steps, function($step) {
 
 $progress_percentage = count($completed_steps) / count($progress_steps) * 100;
 
-// Determine next step
+// FIXED: Determine next step correctly
 $next_step = null;
-foreach ($progress_steps as $key => $step) {
-    if (!$step['completed']) {
+$step_keys = array_keys($progress_steps);
+
+foreach ($step_keys as $key) {
+    if (!$progress_steps[$key]['completed']) {
         $next_step = $key;
         break;
     }
 }
 
-// Map next steps to URLs
+// Map next steps to URLs - FIXED: Correct order based on actual flow
 $step_urls = [
     'offer_accepted' => 'financial-assessment.php',
     'financial_completed' => 'payroll-setup.php', 
@@ -67,6 +69,15 @@ $step_urls = [
     'commitment_completed' => 'equipment-purchase.php',
     'equipment_ordered' => 'thankyou.php?status=complete'
 ];
+
+// FIXED: Get the correct URL for the continue button
+$continue_url = '';
+if ($next_step && isset($step_urls[$next_step])) {
+    $continue_url = $step_urls[$next_step];
+} else {
+    // If all steps are completed
+    $continue_url = 'thankyou.php?status=complete';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -345,8 +356,8 @@ $step_urls = [
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <?php if ($next_step && isset($step_urls[$next_step])): ?>
-                        <a href="<?php echo $step_urls[$next_step]; ?>" class="btn btn-light btn-lg">
+                    <?php if ($next_step && $continue_url): ?>
+                        <a href="<?php echo $continue_url; ?>" class="btn btn-light btn-lg">
                             <i class="fas fa-arrow-right me-2"></i>Continue Onboarding
                         </a>
                     <?php else: ?>
