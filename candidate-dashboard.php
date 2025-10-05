@@ -21,35 +21,35 @@ $progress_steps = [
         'completed' => true, // Always true since user is logged in
         'title' => 'Offer Accepted',
         'completed_at' => $user['offer_accepted_at'] ?? date('Y-m-d H:i:s'),
-        'url' => 'financial-assessment.php'
+        'url' => '#' // No URL needed as this step is always completed
     ],
     'financial_completed' => [
         'completed' => (!empty($user['financial_completed']) && $user['financial_completed'] == 1) || 
                       (!empty($user['financial_completed_at'])),
         'title' => 'Financial Assessment',
         'completed_at' => $user['financial_completed_at'] ?? null,
-        'url' => 'payroll-setup.php'
+        'url' => 'financial-assessment.php' // Fixed: Points to its own page
     ],
     'payroll_completed' => [
         'completed' => (!empty($user['payroll_completed']) && $user['payroll_completed'] == 1) || 
                       (!empty($user['payroll_completed_at'])),
         'title' => 'Payroll Setup',
         'completed_at' => $user['payroll_completed_at'] ?? null,
-        'url' => 'program-commitment.php'
+        'url' => 'payroll-setup.php' // Fixed: Points to its own page
     ],
     'commitment_completed' => [
         'completed' => (!empty($user['commitment_completed']) && $user['commitment_completed'] == 1) || 
                       (!empty($user['commitment_completed_at'])),
         'title' => 'Program Commitment',
         'completed_at' => $user['commitment_completed_at'] ?? null,
-        'url' => 'equipment-purchase.php'
+        'url' => 'program-commitment.php' // Fixed: Points to its own page
     ],
     'equipment_ordered' => [
         'completed' => (!empty($user['equipment_ordered']) && $user['equipment_ordered'] == 1) || 
                       (!empty($user['equipment_ordered_at'])),
         'title' => 'Equipment Ordered',
         'completed_at' => $user['equipment_ordered_at'] ?? null,
-        'url' => 'thankyou.php?status=complete'
+        'url' => 'equipment-purchase.php' // Fixed: Points to its own page
     ]
 ];
 
