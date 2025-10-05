@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['financial_data'] = $_POST;
 
     if ($equipment_investment === 'yes') {
-        header("Location: program-commitment.php");
+        header("Location: payroll-setup.php");
     } elseif ($equipment_investment === 'no' && $confirm_incapable === 'yes' && $trust_check === 'yes') {
         header("Location: payroll-setup.php");
     } else {
