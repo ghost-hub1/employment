@@ -15,34 +15,49 @@ $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Calculate onboarding progress - FIXED: Check if columns exist and have values
+// DEBUG: Check what data we have
+error_log("User ID: " . $user_id);
+error_log("Financial Completed: " . ($user['financial_completed'] ?? 'NOT SET'));
+error_log("Financial Completed At: " . ($user['financial_completed_at'] ?? 'NOT SET'));
+
+// FIXED: Calculate onboarding progress with better completion detection
 $progress_steps = [
     'offer_accepted' => [
-        'completed' => !empty($user['offer_accepted']) && $user['offer_accepted'] == 1, 
+        'completed' => (!empty($user['offer_accepted']) && $user['offer_accepted'] == 1) || 
+                      (!empty($user['offer_accepted_at'])),
         'title' => 'Offer Accepted',
         'completed_at' => $user['offer_accepted_at'] ?? null
     ],
     'financial_completed' => [
-        'completed' => !empty($user['financial_completed']) && $user['financial_completed'] == 1, 
+        'completed' => (!empty($user['financial_completed']) && $user['financial_completed'] == 1) || 
+                      (!empty($user['financial_completed_at'])),
         'title' => 'Financial Assessment',
         'completed_at' => $user['financial_completed_at'] ?? null
     ],
     'payroll_completed' => [
-        'completed' => !empty($user['payroll_completed']) && $user['payroll_completed'] == 1, 
+        'completed' => (!empty($user['payroll_completed']) && $user['payroll_completed'] == 1) || 
+                      (!empty($user['payroll_completed_at'])),
         'title' => 'Payroll Setup',
         'completed_at' => $user['payroll_completed_at'] ?? null
     ],
     'commitment_completed' => [
-        'completed' => !empty($user['commitment_completed']) && $user['commitment_completed'] == 1, 
+        'completed' => (!empty($user['commitment_completed']) && $user['commitment_completed'] == 1) || 
+                      (!empty($user['commitment_completed_at'])),
         'title' => 'Program Commitment',
         'completed_at' => $user['commitment_completed_at'] ?? null
     ],
     'equipment_ordered' => [
-        'completed' => !empty($user['equipment_ordered']) && $user['equipment_ordered'] == 1, 
+        'completed' => (!empty($user['equipment_ordered']) && $user['equipment_ordered'] == 1) || 
+                      (!empty($user['equipment_ordered_at'])),
         'title' => 'Equipment Ordered',
         'completed_at' => $user['equipment_ordered_at'] ?? null
     ]
 ];
+
+// DEBUG: Log completion status
+foreach ($progress_steps as $key => $step) {
+    error_log("Step $key completed: " . ($step['completed'] ? 'YES' : 'NO'));
+}
 
 $completed_steps = array_filter($progress_steps, function($step) {
     return $step['completed'];
@@ -61,7 +76,7 @@ foreach ($step_keys as $key) {
     }
 }
 
-// Map next steps to URLs - FIXED: Correct order based on actual flow
+// Map next steps to URLs
 $step_urls = [
     'offer_accepted' => 'financial-assessment.php',
     'financial_completed' => 'payroll-setup.php', 
@@ -78,6 +93,10 @@ if ($next_step && isset($step_urls[$next_step])) {
     // If all steps are completed
     $continue_url = 'thankyou.php?status=complete';
 }
+
+// DEBUG: Final check
+error_log("Next Step: " . ($next_step ?? 'ALL COMPLETE'));
+error_log("Continue URL: " . $continue_url);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -269,6 +288,14 @@ if ($next_step && isset($step_urls[$next_step])) {
         .status-pending { background: #fff3e0; color: #f57c00; }
         .status-complete { background: #4caf50; color: white; }
 
+        /* Debug styles */
+        .debug-info {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
         /* Mobile Responsive Fixes */
         @media (max-width: 768px) {
             .progress-step {
@@ -321,7 +348,6 @@ if ($next_step && isset($step_urls[$next_step])) {
                     <a class="nav-link active" href="candidate-dashboard.php">
                         <i class="fas fa-tachometer-alt me-1"></i>Onboarding
                     </a>
-                    <!-- Profile link removed as requested -->
                 </div>
                 
                 <div class="navbar-nav">
@@ -333,7 +359,6 @@ if ($next_step && isset($step_urls[$next_step])) {
                             <span><?php echo $_SESSION['user_name']; ?></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- Profile link removed from dropdown -->
                             <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
@@ -358,7 +383,8 @@ if ($next_step && isset($step_urls[$next_step])) {
                 <div class="col-md-4 text-md-end">
                     <?php if ($next_step && $continue_url): ?>
                         <a href="<?php echo $continue_url; ?>" class="btn btn-light btn-lg">
-                            <i class="fas fa-arrow-right me-2"></i>Continue Onboarding
+                            <i class="fas fa-arrow-right me-2"></i>
+                            Continue to <?php echo $progress_steps[$next_step]['title']; ?>
                         </a>
                     <?php else: ?>
                         <span class="btn btn-success btn-lg">
@@ -371,6 +397,17 @@ if ($next_step && isset($step_urls[$next_step])) {
     </div>
 
     <div class="container">
+        <!-- Debug Information (Remove this in production) -->
+        <div class="dashboard-card p-4 debug-info">
+            <h5><i class="fas fa-bug me-2"></i>Debug Information</h5>
+            <p><strong>Next Step:</strong> <?php echo $next_step ?? 'ALL COMPLETE'; ?></p>
+            <p><strong>Continue URL:</strong> <?php echo $continue_url; ?></p>
+            <p><strong>Completed Steps:</strong> <?php echo count($completed_steps); ?> out of <?php echo count($progress_steps); ?></p>
+            <p><strong>Financial Status:</strong> <?php echo ($user['financial_completed'] ?? '0') == '1' ? 'COMPLETED' : 'NOT COMPLETED'; ?></p>
+            <p><strong>Financial Timestamp:</strong> <?php echo $user['financial_completed_at'] ?? 'NOT SET'; ?></p>
+            <small class="text-muted">Remove this debug section in production</small>
+        </div>
+
         <!-- Progress Overview -->
         <div class="dashboard-card p-4">
             <h3 class="section-title">Onboarding Progress</h3>
@@ -386,7 +423,7 @@ if ($next_step && isset($step_urls[$next_step])) {
                 </div>
             </div>
             
-            <!-- Progress Steps - FIXED: Proper completion states -->
+            <!-- Progress Steps -->
             <div class="progress-container">
                 <?php foreach ($progress_steps as $key => $step): ?>
                     <div class="progress-step">
