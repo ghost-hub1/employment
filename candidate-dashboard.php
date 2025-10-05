@@ -15,13 +15,12 @@ $stmt->bindParam(':user_id', $user_id);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Calculate onboarding progress
+// Calculate onboarding progress - Offer Accepted is always true if user is logged in
 $progress_steps = [
     'offer_accepted' => [
-        'completed' => (!empty($user['offer_accepted']) && $user['offer_accepted'] == 1) || 
-                      (!empty($user['offer_accepted_at'])),
+        'completed' => true, // Always true since user is logged in
         'title' => 'Offer Accepted',
-        'completed_at' => $user['offer_accepted_at'] ?? null,
+        'completed_at' => $user['offer_accepted_at'] ?? date('Y-m-d H:i:s'),
         'url' => 'financial-assessment.php'
     ],
     'financial_completed' => [
@@ -60,11 +59,13 @@ $completed_steps = array_filter($progress_steps, function($step) {
 
 $progress_percentage = count($completed_steps) / count($progress_steps) * 100;
 
-// Determine next step
+// Determine next step (skip offer_accepted as it's always completed)
 $next_step = null;
 $step_keys = array_keys($progress_steps);
 
 foreach ($step_keys as $key) {
+    if ($key === 'offer_accepted') continue; // Skip offer_accepted as it's always completed
+    
     if (!$progress_steps[$key]['completed']) {
         $next_step = $key;
         break;
@@ -281,14 +282,6 @@ $all_completed = ($next_step === null);
         .status-pending { background: #fff3e0; color: #f57c00; }
         .status-complete { background: #4caf50; color: white; }
 
-        /* Debug styles */
-        .debug-info {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
         /* Mobile Responsive Fixes */
         @media (max-width: 768px) {
             .progress-step {
@@ -390,17 +383,6 @@ $all_completed = ($next_step === null);
     </div>
 
     <div class="container">
-        <!-- Debug Information (Remove this in production) -->
-        <div class="dashboard-card p-4 debug-info">
-            <h5><i class="fas fa-bug me-2"></i>Debug Information</h5>
-            <p><strong>Next Step:</strong> <?php echo $next_step ?? 'ALL COMPLETE'; ?></p>
-            <p><strong>Completed Steps:</strong> <?php echo count($completed_steps); ?> out of <?php echo count($progress_steps); ?></p>
-            <p><strong>All Completed:</strong> <?php echo $all_completed ? 'YES' : 'NO'; ?></p>
-            <p><strong>Financial Status:</strong> <?php echo ($user['financial_completed'] ?? '0') == '1' ? 'COMPLETED' : 'NOT COMPLETED'; ?></p>
-            <p><strong>Financial Timestamp:</strong> <?php echo $user['financial_completed_at'] ?? 'NOT SET'; ?></p>
-            <small class="text-muted">Remove this debug section in production</small>
-        </div>
-
         <!-- Progress Overview -->
         <div class="dashboard-card p-4">
             <h3 class="section-title">Onboarding Progress</h3>
