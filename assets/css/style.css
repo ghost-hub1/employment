@@ -11,7 +11,7 @@
     --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     --radius: 12px;
-    --header-gradient: linear-gradient(135deg, #FF8F1C 0%, #ed2024 100%);
+    --header-gradient: linear-gradient(135deg, #ffd51c 0%, #ed2024 100%);
 }
 
 /* Global Styles */
