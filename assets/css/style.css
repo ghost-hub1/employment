@@ -28,11 +28,11 @@ body {
     color: #374151;
 }
 
-/* Modern Header Section - Reduced Height */
+/* MODERN HEADER SECTION - REDUCED HEIGHT AS REQUESTED */
 .hero-header {
     background: var(--header-gradient);
     color: white;
-    padding: 2rem 0;
+    padding: 1.5rem 0; /* REDUCED from 2rem */
     margin-bottom: 2rem;
     position: relative;
     overflow: hidden;
@@ -55,14 +55,14 @@ body {
 }
 
 .hero-title {
-    font-size: 2.25rem;
+    font-size: 2rem; /* REDUCED from 2.25rem */
     font-weight: 700;
     margin-bottom: 0.5rem;
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem; /* REDUCED from 1.1rem */
     opacity: 0.95;
     font-weight: 400;
 }
@@ -71,7 +71,7 @@ body {
 .navbar {
     background: white !important;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-    padding: 1rem 0;
+    padding: 0.75rem 0; /* Reduced padding */
 }
 
 .navbar-brand {
@@ -83,7 +83,7 @@ body {
 }
 
 .brand-logo {
-    height: 40px;
+    height: 35px; /* Slightly smaller */
     width: auto;
     transition: transform 0.3s ease;
 }
@@ -341,15 +341,15 @@ body {
 /* Responsive Design */
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 1.75rem;
+        font-size: 1.5rem; /* Further reduced for mobile */
     }
     
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
     }
     
     .hero-header {
-        padding: 1.5rem 0;
+        padding: 1.25rem 0; /* Further reduced for mobile */
     }
     
     .stat-card {
@@ -365,17 +365,17 @@ body {
     }
     
     .brand-logo {
-        height: 32px;
+        height: 30px; /* Smaller for mobile */
     }
 }
 
 @media (max-width: 576px) {
     .hero-title {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     
     .hero-header {
-        padding: 1.25rem 0;
+        padding: 1rem 0; /* Minimal padding for mobile */
     }
     
     .btn-brand {

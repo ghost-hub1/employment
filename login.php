@@ -37,8 +37,16 @@ if ($auth->isLoggedIn()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Career Portal</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    
     <style>
         :root {
             --primary: #FF8F1C;
@@ -51,7 +59,7 @@ if ($auth->isLoggedIn()) {
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            /* display: flex; */
+            display: flex;
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -62,33 +70,39 @@ if ($auth->isLoggedIn()) {
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            /* display:contents; */
-            max-width: 400px;
+            max-width: 420px;
             width: 100%;
-            /* align-content: center; */
             margin: 20px auto;
         }
         
         .login-header {
             background: var(--gradient);
             color: white;
-            padding: 30px 20px;
+            padding: 25px 20px; /* Reduced padding */
             text-align: center;
+            position: relative;
+        }
+        
+        .brand-logo-login {
+            height: 50px;
+            width: auto;
+            margin-bottom: 15px;
         }
         
         .login-header h2 {
             margin: 0;
             font-weight: 700;
-            font-size: 2rem;
+            font-size: 1.75rem; /* Reduced size */
         }
         
         .login-header p {
             margin: 5px 0 0;
             opacity: 0.9;
+            font-size: 0.95rem;
         }
         
         .login-body {
-            padding: 30px;
+            padding: 25px; /* Reduced padding */
         }
         
         .form-control {
@@ -125,37 +139,30 @@ if ($auth->isLoggedIn()) {
             background: #f8f9fa;
         }
         
-        .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-        
-        .feature-icon i {
-            font-size: 2rem;
-            color: white;
-        }
-        
         .alert {
             border-radius: 10px;
             border: none;
+        }
+        
+        .input-group-text {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-right: none;
+        }
+        
+        .form-control:focus + .input-group-text {
+            border-color: var(--primary);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="d-flex justify-content-center align-items-center min-vh-100">
+            <div class="col-12">
                 <div class="login-container">
                     <div class="login-header">
-                        <div class="feature-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
+                        <!-- ADDED LOGO TO LOGIN PAGE -->
+                        <img src="assets/images/logo.png" alt="Paysphere Logo" class="brand-logo-login">
                         <h2>Career Portal</h2>
                         <p>Sign in to your account</p>
                     </div>

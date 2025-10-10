@@ -10,12 +10,12 @@
     <meta name="keywords" content="careers, jobs, hiring, Paysphere, employment">
     <meta name="author" content="Paysphere">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png">
-    <link rel="manifest" href="/assets/images/site.webmanifest">
+    <!-- Favicon - FIXED PATHS -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="manifest" href="assets/images/site.webmanifest">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,8 +28,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <!-- Main Stylesheet - FIXED PATH -->
+    <link rel="stylesheet" href="assets/css/style.css">
     
     <!-- Page-specific CSS -->
     <?php if (isset($page_css)): ?>
@@ -45,9 +45,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <!-- Logo and Brand -->
-            <a class="navbar-brand" href="/">
-                <img src="/assets/images/logo.png" alt="Paysphere Logo" class="brand-logo">
+            <!-- Logo and Brand - FIXED LOGO PATH -->
+            <a class="navbar-brand" href="index.php">
+                <img src="assets/images/logo.png" alt="Paysphere Logo" class="brand-logo">
                 <span class="brand-gradient">Paysphere</span>
             </a>
             
