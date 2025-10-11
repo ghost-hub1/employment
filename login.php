@@ -87,6 +87,8 @@ if ($auth->isLoggedIn()) {
             height: 50px;
             width: auto;
             margin-bottom: 15px;
+            /* FIXED: Gray logo for better visibility */
+            filter: brightness(0) invert(0.8); /* Gray color */
         }
         
         .login-header h2 {
@@ -161,7 +163,7 @@ if ($auth->isLoggedIn()) {
             <div class="col-12">
                 <div class="login-container">
                     <div class="login-header">
-                        <!-- ADDED LOGO TO LOGIN PAGE -->
+                        <!-- FIXED: Gray logo for better visibility -->
                         <img src="assets/images/logo.png" alt="Paysphere Logo" class="brand-logo-login">
                         <h2>Career Portal</h2>
                         <p>Sign in to your account</p>

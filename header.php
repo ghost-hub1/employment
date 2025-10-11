@@ -56,7 +56,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             
-            <!-- Navigation Links -->
+            <!-- Navigation Links - REMOVED Profile and Positions -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -65,18 +65,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'positions.php' ? 'active' : ''; ?>" href="positions.php">
-                            <i class="fas fa-briefcase me-1"></i>Positions
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : ''; ?>" href="dashboard.php">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'profile.php' ? 'active' : ''; ?>" href="profile.php">
-                            <i class="fas fa-user me-1"></i>Profile
                         </a>
                     </li>
                     <?php if (isset($_SESSION['user_id'])): ?>

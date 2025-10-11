@@ -269,8 +269,27 @@ $page_title = "Onboarding Dashboard - Career Portal";
         
         .step-action {
             margin-left: 15px;
-            min-width: 120px;
+            min-width: 140px; /* Increased width for better button fit */
             text-align: right;
+        }
+        
+        /* FIXED: Larger Continue Button */
+        .btn-continue {
+            background: var(--gradient);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px; /* Better padding */
+            font-weight: 600;
+            font-size: 0.95rem; /* Slightly larger font */
+            color: white;
+            min-width: 110px; /* Ensure consistent width */
+            transition: all 0.3s ease;
+        }
+        
+        .btn-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 143, 28, 0.3);
+            color: white;
         }
         
         @keyframes pulse {
@@ -313,6 +332,7 @@ $page_title = "Onboarding Dashboard - Career Portal";
             .step-action {
                 margin-left: 0;
                 text-align: center;
+                min-width: auto; /* Reset for mobile */
             }
             
             .welcome-section .btn {
@@ -321,6 +341,11 @@ $page_title = "Onboarding Dashboard - Career Portal";
             
             .welcome-section {
                 padding: 20px 0; /* Further reduced for mobile */
+            }
+            
+            .btn-continue {
+                min-width: 100px; /* Smaller but still visible on mobile */
+                padding: 8px 16px;
             }
         }
     </style>
@@ -403,8 +428,8 @@ $page_title = "Onboarding Dashboard - Career Portal";
                         
                         <div class="step-action">
                             <?php if ($key === $next_step && isset($step['url'])): ?>
-                                <!-- Only show continue button on the actual next step -->
-                                <a href="<?php echo $step['url']; ?>" class="btn btn-primary btn-sm">
+                                <!-- FIXED: Better Continue Button -->
+                                <a href="<?php echo $step['url']; ?>" class="btn btn-continue">
                                     Continue <i class="fas fa-arrow-right ms-1"></i>
                                 </a>
                             <?php elseif ($step['completed']): ?>
