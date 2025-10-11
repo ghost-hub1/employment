@@ -408,3 +408,36 @@ body {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* Smart Logo Color Detection */
+.brand-logo {
+    height: 35px;
+    width: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* When logo is on orange/red backgrounds, apply grey filter */
+.hero-header .brand-logo,
+.welcome-section .brand-logo,
+.card-header-modern .brand-logo,
+.btn-brand .brand-logo {
+    filter: brightness(0) invert(1) grayscale(100%) brightness(2);
+}
+
+/* When logo is on dark backgrounds */
+.bg-dark .brand-logo,
+.footer .brand-logo {
+    filter: brightness(0) invert(1);
+}
+
+/* Hover effects */
+.navbar-brand:hover .brand-logo {
+    transform: scale(1.05);
+    filter: none; /* Remove filter on hover for better visibility */
+}
+
+/* Login page specific logo styling */
+.brand-logo-login {
+    height: 50px;
+    width: auto;
+    filter: brightness(0) invert(1); /* Always white on login gradient */
+}

@@ -74,15 +74,34 @@ foreach ($step_keys as $key) {
 
 // Check if all steps are completed
 $all_completed = ($next_step === null);
+
+// Set page title for header
+$page_title = "Onboarding Dashboard - Career Portal";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onboarding Dashboard - Career Portal</title>
+    <title><?php echo $page_title; ?></title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
     <style>
         :root {
             --primary: #FF8F1C;
@@ -97,17 +116,6 @@ $all_completed = ($next_step === null);
             background-color: #f5f7fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding-top: 0;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
-        
-        .brand-gradient {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
         
         .dashboard-card {
@@ -182,7 +190,7 @@ $all_completed = ($next_step === null);
         .welcome-section {
             background: var(--gradient);
             color: white;
-            padding: 40px 0;
+            padding: 30px 0; /* REDUCED from 40px */
             border-radius: 0 0 30px 30px;
             margin-bottom: 30px;
         }
@@ -311,57 +319,23 @@ $all_completed = ($next_step === null);
                 margin-top: 15px;
             }
             
-            .navbar-nav .dropdown-menu {
-                position: absolute;
+            .welcome-section {
+                padding: 20px 0; /* Further reduced for mobile */
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation - REMOVED Profile Link -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand brand-gradient" href="candidate-dashboard.php">
-                <i class="fas fa-briefcase me-2"></i>CareerPortal
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav me-auto">
-                    <a class="nav-link active" href="candidate-dashboard.php">
-                        <i class="fas fa-tachometer-alt me-1"></i>Onboarding
-                    </a>
-                </div>
-                
-                <div class="navbar-nav">
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px;">
-                                <i class="fas fa-user text-white"></i>
-                            </div>
-                            <span><?php echo $_SESSION['user_name']; ?></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="settings.php"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <!-- Use the proper header instead of hardcoded navigation -->
+    <?php include 'includes/header.php'; ?>
 
     <!-- Welcome Section -->
     <div class="welcome-section">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <h1>Welcome to Your Onboarding, <?php echo explode(' ', $_SESSION['user_name'])[0]; ?>! 🎉</h1>
-                    <p class="mb-0">
+                    <h1 class="hero-title">Welcome to Your Onboarding, <?php echo explode(' ', $_SESSION['user_name'])[0]; ?>! 🎉</h1>
+                    <p class="hero-subtitle mb-0">
                         Position: <strong><?php echo htmlspecialchars($user['position_applied'] ?? 'Your Position'); ?></strong> | 
                         Status: <span class="status-badge status-active">Onboarding in Progress</span>
                     </p>
