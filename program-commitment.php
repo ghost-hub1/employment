@@ -82,6 +82,8 @@ if ($_POST && isset($_POST['submit_commitment'])) {
     </style>
 </head>
 <body>
+    <!-- Use the proper header instead of hardcoded navigation -->
+    <?php include 'includes/header.php'; ?>
     <div class="container mt-4">
         <!-- Header -->
         <div class="text-center mb-4">

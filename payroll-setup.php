@@ -98,6 +98,8 @@ $user_id = $_SESSION['user_id'];
     </style>
 </head>
 <body>
+    <!-- Use the proper header instead of hardcoded navigation -->
+    <?php include 'includes/header.php'; ?>
     <!-- Official Header -->
     <div class="official-header">
         <div class="container">
