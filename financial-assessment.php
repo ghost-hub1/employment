@@ -39,7 +39,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Assessment - Career Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #FF8F1C;
@@ -49,11 +49,40 @@ if ($_POST && isset($_POST['submit_financial'])) {
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
         
+        body {
+            position: relative;
+        }
+        
+        .official-watermark {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .official-watermark::before {
+            content: "OFFICIAL";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8rem;
+            color: rgba(0,0,0,0.03);
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0.7;
+        }
+        
         .official-header {
             background: var(--dark);
             color: white;
             padding: 30px 0;
             border-bottom: 5px solid var(--primary);
+            position: relative;
+            z-index: 10000;
         }
         
         .official-stamp {
@@ -63,6 +92,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
             margin: 20px 0;
             border-radius: 10px;
             background: #f8fff9;
+            z-index: 10000;
         }
         
         .official-stamp:before {
@@ -78,22 +108,9 @@ if ($_POST && isset($_POST['submit_financial'])) {
             font-weight: bold;
         }
         
-        .official-watermark {
+        .container {
             position: relative;
-        }
-        
-        .official-watermark::before {
-            content: "OFFICIAL";
-            position: fixed; /* Changed from absolute to fixed */
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 7rem;
-            color: rgba(0,0,0,0.03);
-            font-weight: bold;
-            z-index: -1; /* Changed to negative z-index */
-            white-space: nowrap;
-            pointer-events: none; /* This prevents it from blocking clicks */
+            z-index: 10000;
         }
         
         .form-section {
@@ -103,13 +120,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
             margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 4px solid var(--primary);
-            position: relative; /* Ensure form elements are above watermark */
-            z-index: 1;
-        }
-        
-        .form-control, .form-select, .form-check-input {
             position: relative;
-            z-index: 2; /* Ensure form elements are clickable */
         }
         
         .warning-box {
@@ -155,17 +166,15 @@ if ($_POST && isset($_POST['submit_financial'])) {
             background: #17a2b8;
             color: white;
         }
-        
-        /* Ensure all interactive elements are above the watermark */
-        input, select, textarea, button, .form-check-label {
-            position: relative;
-            z-index: 2;
-        }
     </style>
 </head>
 <body>
+    <!-- Watermark - Placed at body level -->
+    <div class="official-watermark"></div>
+
     <!-- Use the proper header instead of hardcoded navigation -->
     <?php include 'includes/header.php'; ?>
+    
     <!-- Official Header -->
     <div class="official-header">
         <div class="container">
@@ -209,7 +218,6 @@ if ($_POST && isset($_POST['submit_financial'])) {
         </div>
 
         <form method="POST" id="financialForm" action="submit-financial.php">
-            <div class="official-watermark">
             <!-- Personal Information -->
             <div class="form-section">
                 <h4 class="mb-4"><i class="fas fa-user me-2"></i>Personal Information</h4>
