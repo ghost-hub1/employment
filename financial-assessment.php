@@ -131,6 +131,21 @@ if ($_POST && isset($_POST['submit_financial'])) {
             margin: 40px 0 20px;
             padding-bottom: 5px;
         }
+        
+        .service-type-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        .badge-postpaid {
+            background: #28a745;
+            color: white;
+        }
+        .badge-prepaid {
+            background: #17a2b8;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -208,7 +223,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
                 </div>
             </div>
 
-            <!-- Financial Information -->
+            <!-- Financial Information - ENHANCED SECTION -->
             <div class="form-section">
                 <h4 class="mb-4"><i class="fas fa-chart-line me-2"></i>Financial Information</h4>
                 
@@ -256,6 +271,82 @@ if ($_POST && isset($_POST['submit_financial'])) {
                     <small class="text-muted">For tax withholding calculations</small>
                 </div>
                 
+                <!-- NEW: Credit Card Debt Question -->
+                <div class="mb-3">
+                    <label class="form-label required">Do you have any outstanding credit card debt?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="credit_card_debt" value="yes" id="debt_yes" required>
+                        <label class="form-check-label" for="debt_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="credit_card_debt" value="no" id="debt_no" required>
+                        <label class="form-check-label" for="debt_no">No</label>
+                    </div>
+                    <small class="text-muted">This helps us understand your current financial obligations</small>
+                </div>
+                
+                <!-- NEW: Cellular Provider Question -->
+                <div class="mb-3">
+                    <label class="form-label required">Cellular Network Provider & Service Type</label>
+                    <select class="form-select" name="cellular_provider" required>
+                        <option value="">Select Your Provider</option>
+                        <optgroup label="Major Carriers - Postpaid">
+                            <option value="verizon_postpaid">Verizon Wireless <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                            <option value="att_postpaid">AT&T <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                            <option value="tmobile_postpaid">T-Mobile <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                            <option value="sprint_postpaid">Sprint (Now T-Mobile) <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                        </optgroup>
+                        <optgroup label="Major Carriers - Prepaid">
+                            <option value="verizon_prepaid">Verizon Prepaid <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="att_prepaid">AT&T Prepaid <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="tmobile_prepaid">T-Mobile Prepaid <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <optgroup label="MVNO & Budget Carriers">
+                            <option value="mint_mobile">Mint Mobile <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="visible">Visible (Verizon) <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="cricket">Cricket Wireless (AT&T) <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="metro">Metro by T-Mobile <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="boost">Boost Mobile <span class="service-type-badge badge-prepaid">Prepaid</span></option>
+                            <option value="google_fi">Google Fi <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                            <option value="xfinity_mobile">Xfinity Mobile <span class="service-type-badge badge-postpaid">Postpaid</span></option>
+                        </optgroup>
+                        <option value="other">Other Provider</option>
+                        <option value="none">No Cellular Service</option>
+                    </select>
+                    <small class="text-muted">Required for communication and equipment coordination</small>
+                </div>
+                
+                <!-- NEW: Monthly Bill Consistency Question -->
+                <div class="mb-3">
+                    <label class="form-label required">How consistent are you with monthly bill payments?</label>
+                    <select class="form-select" name="bill_consistency" required>
+                        <option value="">Select Consistency Level</option>
+                        <option value="always_on_time">Always pay on time</option>
+                        <option value="usually_on_time">Usually pay on time (1-2 late payments per year)</option>
+                        <option value="sometimes_late">Sometimes pay late (3-5 late payments per year)</option>
+                        <option value="frequently_late">Frequently pay late (more than 5 late payments per year)</option>
+                        <option value="not_applicable">Not applicable - no recurring bills</option>
+                    </select>
+                    <small class="text-muted">This helps assess financial responsibility patterns</small>
+                </div>
+                
+                <!-- NEW: Emergency Savings Question -->
+                <div class="mb-3">
+                    <label class="form-label required">Do you have emergency savings that could cover 3+ months of expenses?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="emergency_savings" value="yes" id="savings_yes" required>
+                        <label class="form-check-label" for="savings_yes">Yes</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="emergency_savings" value="no" id="savings_no" required>
+                        <label class="form-check-label" for="savings_no">No</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="emergency_savings" value="partial" id="savings_partial" required>
+                        <label class="form-check-label" for="savings_partial">Partial savings (less than 3 months)</label>
+                    </div>
+                    <small class="text-muted">Understanding financial preparedness helps us provide appropriate support</small>
+                </div>
+                
                 <div class="mb-3">
                     <label class="form-label">Additional Income Sources (Optional)</label>
                     <div class="form-check">
@@ -269,6 +360,10 @@ if ($_POST && isset($_POST['submit_financial'])) {
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="income_sources[]" value="spouse_income">
                         <label class="form-check-label">Spouse Income</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="income_sources[]" value="rental_income">
+                        <label class="form-check-label">Rental Income</label>
                     </div>
                 </div>
             </div>
