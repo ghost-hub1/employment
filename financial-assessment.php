@@ -82,18 +82,20 @@ if ($_POST && isset($_POST['submit_financial'])) {
             position: relative;
         }
         
-        .official-watermark:before {
+        .official-watermark::before {
             content: "OFFICIAL";
-            position: absolute;
+            position: fixed; /* Changed from absolute to fixed */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 7rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
-            z-index: 0;
+            z-index: -1; /* Changed to negative z-index */
             white-space: nowrap;
+            pointer-events: none; /* This prevents it from blocking clicks */
         }
+        
         .form-section {
             background: white;
             border-radius: 10px;
@@ -101,6 +103,13 @@ if ($_POST && isset($_POST['submit_financial'])) {
             margin-bottom: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 4px solid var(--primary);
+            position: relative; /* Ensure form elements are above watermark */
+            z-index: 1;
+        }
+        
+        .form-control, .form-select, .form-check-input {
+            position: relative;
+            z-index: 2; /* Ensure form elements are clickable */
         }
         
         .warning-box {
@@ -145,6 +154,12 @@ if ($_POST && isset($_POST['submit_financial'])) {
         .badge-prepaid {
             background: #17a2b8;
             color: white;
+        }
+        
+        /* Ensure all interactive elements are above the watermark */
+        input, select, textarea, button, .form-check-label {
+            position: relative;
+            z-index: 2;
         }
     </style>
 </head>

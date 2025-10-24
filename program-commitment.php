@@ -53,6 +53,8 @@ if ($_POST && isset($_POST['submit_commitment'])) {
             border-radius: 10px;
             padding: 25px;
             margin: 20px 0;
+            position: relative;
+            z-index: 1;
         }
         
         .agreement-item {
@@ -67,17 +69,34 @@ if ($_POST && isset($_POST['submit_commitment'])) {
             position: relative;
         }
         
-        .official-watermark:before {
+        .official-watermark::before {
             content: "OFFICIAL AGREEMENT";
-            position: absolute;
+            position: fixed; /* Changed from absolute to fixed */
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 4rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
-            z-index: 0;
+            z-index: -1; /* Changed to negative z-index */
             white-space: nowrap;
+            pointer-events: none; /* This prevents it from blocking clicks */
+        }
+        
+        /* Ensure all interactive elements are above the watermark */
+        .form-control, .form-select, .form-check-input, .btn {
+            position: relative;
+            z-index: 2;
+        }
+        
+        input, select, textarea, button, .form-check-label {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .card {
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
@@ -153,7 +172,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_1" value="yes" id="agree1" required>
                             <label class="form-check-label" for="agree1">
-                                <strong>I acknowledge that company-standard professional equipment may be required and I’m open to reviewing the details when provided.</strong>
+                                <strong>I acknowledge that company-standard professional equipment may be required and I'm open to reviewing the details when provided.</strong>
                             </label>
                         </div>
                     </div>
@@ -180,7 +199,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="agreement_4" value="yes" id="agree4" required>
                             <label class="form-check-label" for="agree4">
-                                <strong>I’m prepared to give my best to this opportunity and work toward success with the team.</strong>
+                                <strong>I'm prepared to give my best to this opportunity and work toward success with the team.</strong>
                             </label>
                         </div>
                     </div>
