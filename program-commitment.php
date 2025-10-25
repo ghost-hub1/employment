@@ -69,18 +69,18 @@ if ($_POST && isset($_POST['submit_commitment'])) {
             position: relative;
         }
         
-        .official-watermark::before {
+        .official-watermark:before {
             content: "OFFICIAL AGREEMENT";
-            position: fixed; /* Changed from absolute to fixed */
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 4rem;
+            font-size: 6rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
-            z-index: -1; /* Changed to negative z-index */
+            z-index: 9999; /* High z-index to be above everything */
             white-space: nowrap;
-            pointer-events: none; /* This prevents it from blocking clicks */
+            pointer-events: none; /* This should work but might not in all browsers */
         }
         
         /* Ensure all interactive elements are above the watermark */

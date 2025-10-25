@@ -38,18 +38,18 @@ $user_id = $_SESSION['user_id'];
             position: relative;
         }
         
-        .official-watermark::before {
+        .official-watermark:before {
             content: "OFFICIAL";
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 7rem;
+            font-size: 9rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
-            z-index: -1;
+            z-index: 9999; /* High z-index to be above everything */
             white-space: nowrap;
-            pointer-events: none;
+            pointer-events: none; /* This should work but might not in all browsers */
         }
         
         .form-section {

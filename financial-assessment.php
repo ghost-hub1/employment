@@ -88,7 +88,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 7rem;
+            font-size: 9rem;
             color: rgba(0,0,0,0.03);
             font-weight: bold;
             z-index: 9999; /* High z-index to be above everything */
