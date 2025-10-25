@@ -39,7 +39,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Financial Assessment - Career Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #FF8F1C;
@@ -148,6 +148,12 @@ if ($_POST && isset($_POST['submit_financial'])) {
             background: #17a2b8;
             color: white;
         }
+        
+        .section-icon {
+            font-size: 1.3rem;
+            margin-right: 10px;
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -199,7 +205,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
             <div class="official-watermark">
             <!-- Personal Information -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-user me-2"></i>Personal Information</h4>
+                <h4 class="mb-4"><i class="fas fa-user section-icon"></i>Personal Information</h4>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
@@ -227,7 +233,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
 
             <!-- Financial Information - ENHANCED SECTION -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-chart-line me-2"></i>Financial Information</h4>
+                <h4 class="mb-4"><i class="fas fa-chart-line section-icon"></i>Financial Information</h4>
                 
                 <div class="warning-box">
                     <i class="fas fa-shield-alt me-2"></i>
@@ -372,7 +378,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
 
             <!-- Equipment Investment Question -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-laptop me-2"></i>Equipment Investment</h4>
+                <h4 class="mb-4"><i class="fas fa-laptop section-icon"></i>Equipment Investment</h4>
                 
                 <div class="alert alert-warning">
                     <h6><i class="fas fa-exclamation-triangle me-2"></i>Critical Question</h6>
@@ -436,7 +442,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
 
             <!-- Signature -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-signature me-2"></i>Certification</h4>
+                <h4 class="mb-4"><i class="fas fa-signature section-icon"></i>Certification</h4>
                 
                 <div class="mb-3">
                     <div class="form-check">

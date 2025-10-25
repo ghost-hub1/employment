@@ -31,7 +31,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Program Commitment Agreement - Career Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #FF8F1C;
@@ -97,6 +97,12 @@ if ($_POST && isset($_POST['submit_commitment'])) {
         .card {
             position: relative;
             z-index: 1;
+        }
+        
+        .section-icon {
+            font-size: 1.3rem;
+            margin-right: 10px;
+            color: var(--primary);
         }
     </style>
 </head>
@@ -166,7 +172,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
             <div class="official-watermark">
                 <!-- Agreement List -->
                 <div class="agreement-list">
-                    <h4 class="text-center mb-4">Program Commitment Terms</h4>
+                    <h4 class="text-center mb-4"><i class="fas fa-file-contract section-icon"></i>Program Commitment Terms</h4>
                     
                     <div class="agreement-item">
                         <div class="form-check">
@@ -230,21 +236,12 @@ if ($_POST && isset($_POST['submit_commitment'])) {
                             </label>
                         </div>
                     </div>
-                    
-                    <!-- <div class="agreement-item">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="agreement_8" value="yes" id="agree8" required>
-                            <label class="form-check-label" for="agree8">
-                                <strong>I agree to participate actively in the professional community</strong>
-                            </label>
-                        </div>
-                    </div> -->
                 </div>
 
                 <!-- Signature Section -->
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h5 class="card-title">Official Signature</h5>
+                        <h5 class="card-title"><i class="fas fa-signature section-icon"></i>Official Signature</h5>
                         
                         <div class="row mb-3">
                             <div class="col-md-6">

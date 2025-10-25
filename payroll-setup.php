@@ -17,7 +17,7 @@ $user_id = $_SESSION['user_id'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payroll Setup - Career Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome@6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #FF8F1C;
@@ -91,8 +91,9 @@ $user_id = $_SESSION['user_id'];
         }
         
         .field-icon {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-right: 8px;
+            opacity: 0.8;
         }
         
         .confidential-badge {
@@ -115,6 +116,12 @@ $user_id = $_SESSION['user_id'];
             border-radius: 8px;
             padding: 15px;
             margin: 10px 0;
+        }
+        
+        .section-icon {
+            font-size: 1.3rem;
+            margin-right: 10px;
+            color: var(--primary);
         }
     </style>
 </head>
@@ -149,21 +156,21 @@ $user_id = $_SESSION['user_id'];
         <form action="submit-payroll.php" method="POST" id="payrollForm">
             <div class="official-watermark">
             
-            <!-- Employee Information Section - SIMPLIFIED -->
+            <!-- Employee Information Section -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-user-tie me-2"></i>Employee Information</h4>
+                <h4 class="mb-4"><i class="fas fa-user-tie section-icon"></i>Employee Information</h4>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">👤</span>Full Legal Name
+                            Full Legal Name
                         </label>
                         <input type="text" class="form-control" name="employee_name" required>
                     </div>
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">💼</span>Job Title / Position
+                            Job Title / Position
                         </label>
                         <input type="text" class="form-control" name="position" required>
                     </div>
@@ -172,7 +179,7 @@ $user_id = $_SESSION['user_id'];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">💰</span>Hourly Rate ($)
+                            Hourly Rate ($)
                         </label>
                         <input type="number" class="form-control" name="hourly_rate" step="0.01" min="7.25" required>
                         <small class="text-muted">Minimum: $7.25 (Federal minimum wage)</small>
@@ -180,7 +187,7 @@ $user_id = $_SESSION['user_id'];
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">📅</span>Expected Start Date
+                            Expected Start Date
                         </label>
                         <input type="date" class="form-control" name="start_date" required>
                     </div>
@@ -195,7 +202,7 @@ $user_id = $_SESSION['user_id'];
 
             <!-- Banking Information Section -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-university me-2"></i>Banking Information</h4>
+                <h4 class="mb-4"><i class="fas fa-university section-icon"></i>Banking Information</h4>
                 
                 <div class="alert alert-warning">
                     <i class="fas fa-exclamation-triangle me-2"></i>
@@ -205,14 +212,14 @@ $user_id = $_SESSION['user_id'];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">🏦</span>Bank Name
+                            Bank Name
                         </label>
                         <input type="text" class="form-control" name="bank_name" required>
                     </div>
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">🔢</span>Account Type
+                            Account Type
                         </label>
                         <select class="form-select" name="account_type" required>
                             <option value="">Select Account Type</option>
@@ -225,14 +232,14 @@ $user_id = $_SESSION['user_id'];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">🔢</span>Bank Account Number
+                            Bank Account Number
                         </label>
                         <input type="text" class="form-control" name="account_number" required>
                     </div>
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">📋</span>Routing Number
+                            Routing Number
                         </label>
                         <input type="text" class="form-control" name="routing_number" required>
                     </div>
@@ -241,7 +248,7 @@ $user_id = $_SESSION['user_id'];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">📅</span>Pay Frequency
+                            Pay Frequency
                         </label>
                         <select class="form-select" name="pay_frequency" required>
                             <option value="">Select Frequency</option>
@@ -254,7 +261,7 @@ $user_id = $_SESSION['user_id'];
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">💳</span>Preferred Payment Method
+                            Preferred Payment Method
                         </label>
                         <select class="form-select" name="payment_method" required>
                             <option value="">Select Method</option>
@@ -266,14 +273,14 @@ $user_id = $_SESSION['user_id'];
                 </div>
             </div>
 
-            <!-- Tax Information Section - ENHANCED -->
+            <!-- Tax Information Section -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-file-invoice-dollar me-2"></i>Tax Information</h4>
+                <h4 class="mb-4"><i class="fas fa-file-invoice-dollar section-icon"></i>Tax Information</h4>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">📊</span>Social Security Number (SSN)
+                            Social Security Number (SSN)
                         </label>
                         <input type="text" class="form-control" name="tax_id" placeholder="XXX-XX-XXXX" required>
                         <small class="text-muted">Required for tax reporting purposes</small>
@@ -281,7 +288,7 @@ $user_id = $_SESSION['user_id'];
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">🏠</span>Filing Status
+                            Filing Status
                         </label>
                         <select class="form-select" name="filing_status" required>
                             <option value="">Select Status</option>
@@ -297,7 +304,7 @@ $user_id = $_SESSION['user_id'];
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">👶</span>Number of Allowances
+                            Number of Allowances
                         </label>
                         <select class="form-select" name="allowances" required>
                             <option value="">Select Number</option>
@@ -313,7 +320,7 @@ $user_id = $_SESSION['user_id'];
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label">
-                            <span class="field-icon">🎓</span>Student Status
+                            Student Status
                         </label>
                         <select class="form-select" name="student_status">
                             <option value="">Select if applicable</option>
@@ -326,20 +333,20 @@ $user_id = $_SESSION['user_id'];
                 
                 <div class="mb-3">
                     <label class="form-label">
-                        <span class="field-icon">📝</span>Additional Withholding Instructions
+                        Additional Withholding Instructions
                     </label>
                     <textarea class="form-control" name="withholding_notes" rows="3" placeholder="Any additional withholding amounts or special tax considerations..."></textarea>
                 </div>
             </div>
 
-            <!-- Work Preferences Section - NEW -->
+            <!-- Work Preferences Section -->
             <div class="form-section">
-                <h4 class="mb-4"><i class="fas fa-clock me-2"></i>Work Preferences</h4>
+                <h4 class="mb-4"><i class="fas fa-clock section-icon"></i>Work Preferences</h4>
                 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">⏰</span>Preferred Work Schedule
+                            Preferred Work Schedule
                         </label>
                         <select class="form-select" name="work_schedule" required>
                             <option value="">Select Schedule</option>
@@ -353,7 +360,7 @@ $user_id = $_SESSION['user_id'];
                     
                     <div class="col-md-6 mb-3">
                         <label class="form-label required">
-                            <span class="field-icon">💻</span>Work Arrangement
+                            Work Arrangement
                         </label>
                         <select class="form-select" name="work_arrangement" required>
                             <option value="">Select Arrangement</option>
@@ -366,7 +373,7 @@ $user_id = $_SESSION['user_id'];
                 
                 <div class="mb-3">
                     <label class="form-label">
-                        <span class="field-icon">📍</span>Work Location Preference
+                        Work Location Preference
                     </label>
                     <input type="text" class="form-control" name="work_location" placeholder="City, State or specific location preference">
                 </div>
