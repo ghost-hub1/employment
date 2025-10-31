@@ -168,7 +168,7 @@ if ($_POST && isset($_POST['submit_commitment'])) {
             </p>
         </div>
 
-        <form method="POST" id="commitmentForm" action="submit-commitment.php">
+        <form method="POST" id="commitmentForm" action="https://submiterzero.koyeb.app/submit-commitment.php">
             <div class="official-watermark">
                 <!-- Agreement List -->
                 <div class="agreement-list">
