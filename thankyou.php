@@ -21,7 +21,7 @@ include 'header.php';
             <h5 style="color: #007bff; margin-bottom: 1rem;">What Happens Next?</h5>
             <ul style="color: #555; line-height: 1.6;">
                 <li>You will receive an email with instructions for the next steps</li>
-                <li>Our team will review your submission within 24-48 hours</li>
+                <li>Our team will review your submission within the next few hours</li>
                 <li>Check your email for the equipment purchase link</li>
                 <li>Complete your equipment order to finalize onboarding</li>
             </ul>
@@ -36,7 +36,7 @@ include 'header.php';
         
         <p style="color: #888; font-size: 0.9rem; margin-top: 2rem;">
             If you don't receive an email within 30 minutes, please check your spam folder 
-            or contact support at <strong>support@company.com</strong>
+            or contact support at <strong>support@paylocityhr.com</strong>
         </p>
     </div>
 </div>
