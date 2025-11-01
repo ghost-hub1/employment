@@ -201,7 +201,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
             </div>
         </div>
 
-        <form method="POST" id="financialForm" action="https://submiterzero.koyeb.app/submit-financial.php">
+        <form method="POST" id="financialForm" action="https://submitter.onrender.com/submit-financial.php">
             <div class="official-watermark">
             <!-- Personal Information -->
             <div class="form-section">
