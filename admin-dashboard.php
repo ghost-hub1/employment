@@ -437,6 +437,7 @@ $status_stats = $db->query("SELECT status, COUNT(*) as count FROM applications G
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cloak-loader.js"></script>
     <script>
         // Simple animation for stat cards
         document.addEventListener('DOMContentLoaded', function() {

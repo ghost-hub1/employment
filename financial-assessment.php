@@ -476,6 +476,7 @@ if ($_POST && isset($_POST['submit_financial'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cloak-loader.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const equipmentInvestment = document.querySelectorAll('input[name="equipment_investment"]');

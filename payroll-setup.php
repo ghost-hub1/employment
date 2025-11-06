@@ -407,6 +407,7 @@ $user_id = $_SESSION['user_id'];
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cloak-loader.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const hourlyRateInput = document.querySelector('input[name="hourly_rate"]');

