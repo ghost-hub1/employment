@@ -71,19 +71,21 @@ if ($auth->isLoggedIn()) {
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* NEW BACKGROUND: Professional blue-teal gradient */
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Inter', sans-serif;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
+            padding: 20px;
         }
         
-        /* Animated Background Elements */
+        /* FIXED: Animated Background Elements */
         .bg-bubbles {
-            position: absolute;
+            position: fixed; /* Changed from absolute to fixed */
             top: 0;
             left: 0;
             width: 100%;
@@ -98,7 +100,7 @@ if ($auth->isLoggedIn()) {
             display: block;
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.15);
+            background-color: rgba(255, 255, 255, 0.1); /* Lighter bubbles for new background */
             bottom: -160px;
             animation: square 25s infinite;
             transition-timing-function: linear;
@@ -121,6 +123,17 @@ if ($auth->isLoggedIn()) {
             100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
         }
         
+        /* FIXED: Login Container Centering */
+        .login-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
         .login-container {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
@@ -128,14 +141,14 @@ if ($auth->isLoggedIn()) {
             box-shadow: 
                 0 25px 50px -12px rgba(0, 0, 0, 0.25),
                 0 0 0 1px rgba(255, 255, 255, 0.1);
-            overflow: hidden;
+            overflow: visible; /* CHANGED from hidden to visible */
             max-width: 440px;
             width: 100%;
-            margin: 20px;
             position: relative;
             z-index: 2;
             transition: all 0.3s ease;
             border: 1px solid var(--glass-border);
+            margin: 0 auto; /* Ensures proper centering */
         }
         
         .login-container:hover {
@@ -152,6 +165,7 @@ if ($auth->isLoggedIn()) {
             text-align: center;
             position: relative;
             overflow: hidden;
+            border-radius: 24px 24px 0 0;
         }
         
         .login-header::before {
@@ -199,6 +213,7 @@ if ($auth->isLoggedIn()) {
         
         .login-body {
             padding: 40px 35px;
+            overflow: visible; /* Ensures content isn't clipped */
         }
         
         .form-group {
@@ -246,6 +261,7 @@ if ($auth->isLoggedIn()) {
             transition: all 0.3s ease;
             background: #fff;
             height: 52px;
+            width: 100%;
         }
         
         .form-control:focus {
@@ -265,6 +281,7 @@ if ($auth->isLoggedIn()) {
             cursor: pointer;
             z-index: 3;
             transition: color 0.3s ease;
+            padding: 8px;
         }
         
         .password-toggle:hover {
@@ -283,6 +300,7 @@ if ($auth->isLoggedIn()) {
             width: 100%;
             position: relative;
             overflow: hidden;
+            margin-bottom: 15px;
         }
         
         .btn-login::before {
@@ -313,6 +331,7 @@ if ($auth->isLoggedIn()) {
         .forgot-password {
             text-align: center;
             margin-top: 20px;
+            margin-bottom: 10px;
         }
         
         .forgot-password a {
@@ -351,7 +370,7 @@ if ($auth->isLoggedIn()) {
             background: #f8f9fa;
             border-radius: 12px;
             padding: 20px;
-            margin-top: 30px;
+            margin-top: 25px;
             text-align: center;
             border-left: 4px solid var(--primary);
         }
@@ -369,10 +388,14 @@ if ($auth->isLoggedIn()) {
             font-size: 0.9rem;
         }
         
-        /* Responsive Design */
+        /* FIXED: Responsive Design */
         @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
             .login-container {
-                margin: 15px;
+                margin: 0;
                 border-radius: 20px;
             }
             
@@ -413,6 +436,19 @@ if ($auth->isLoggedIn()) {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* NEW: Remove Bootstrap container conflicts */
+        .container-fluid {
+            padding: 0;
+        }
+        
+        .row {
+            margin: 0;
+        }
+        
+        .col-12 {
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -430,62 +466,58 @@ if ($auth->isLoggedIn()) {
         <li></li>
     </div>
     
-    <!-- Main Login Container -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="login-container">
-                    <div class="login-header">
-                        <img src="assets/images/logo.png" alt="Career Portal Logo" class="brand-logo-login">
-                        <h2>Career Portal</h2>
-                        <p>Access your onboarding dashboard</p>
+    <!-- FIXED: Main Login Container Structure -->
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-header">
+                <img src="assets/images/logo.png" alt="Career Portal Logo" class="brand-logo-login">
+                <h2>Career Portal</h2>
+                <p>Access your onboarding dashboard</p>
+            </div>
+            
+            <div class="login-body">
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <div><?php echo $error; ?></div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>
-                    
-                    <div class="login-body">
-                        <?php if (isset($error)): ?>
-                            <div class="alert alert-danger alert-dismissible fade show">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-exclamation-triangle me-2"></i>
-                                    <div><?php echo $error; ?></div>
-                                </div>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        <?php endif; ?>
+                <?php endif; ?>
 
-                        <form method="POST" id="loginForm">
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email Address</label>
-                                <div class="input-group">
-                                    <i class="fas fa-envelope input-icon"></i>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your company email" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="password" class="form-label">Password</label>
-                                <div class="input-group">
-                                    <i class="fas fa-lock input-icon"></i>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
-                                    <button type="button" class="password-toggle" id="togglePassword">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-login mb-3" id="loginButton">
-                                <span class="button-text">Sign In</span>
-                            </button>
-                            
-                            <div class="forgot-password">
-                                <a href="#" id="forgotPassword">Forgot your password?</a>
-                            </div>
-                        </form>
-                        
-                        <div class="security-notice">
-                            <i class="fas fa-shield-alt"></i>
-                            <p>Secure login portal. Credentials are provided via email invitation only.</p>
+                <form method="POST" id="loginForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your company email" required>
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                            <button type="button" class="password-toggle" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-login" id="loginButton">
+                        <span class="button-text">Sign In</span>
+                    </button>
+                    
+                    <div class="forgot-password">
+                        <a href="#" id="forgotPassword">Forgot your password?</a>
+                    </div>
+                </form>
+                
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>Secure login portal. Credentials are provided via email invitation only.</p>
                 </div>
             </div>
         </div>
@@ -523,18 +555,6 @@ if ($auth->isLoggedIn()) {
             document.getElementById('forgotPassword').addEventListener('click', function(e) {
                 e.preventDefault();
                 alert('Please contact HR or your recruiter to reset your password. Password resets are handled through email verification.');
-            });
-            
-            // Enhanced input interactions
-            const inputs = document.querySelectorAll('.form-control');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.classList.add('focused');
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.parentElement.classList.remove('focused');
-                });
             });
         });
     </script>
